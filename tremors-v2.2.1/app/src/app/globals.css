@@ -1,0 +1,651 @@
+@import "tailwindcss";
+
+@theme {
+  --animate-np-ticker: np-ticker 40s linear infinite;
+
+  @keyframes np-ticker {
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+/* ============================================
+   CSS VARIABLES / DESIGN TOKENS
+   Premium Black & White Theme
+   ============================================ */
+:root {
+  scroll-behavior: smooth;
+  /* Dark Theme - Pure Black & White */
+  --bg: #000000;
+  --bg-secondary: #0a0a0a;
+  --bg-elevated: #141414;
+  --text: #ffffff;
+  --text-muted: #666666;
+  --text-secondary: #999999;
+  --accent: #ffffff;
+  --accent-hover: #e5e5e5;
+  --accent-glow: rgba(255, 255, 255, 0.06);
+  --accent-cyan: #22d3ee;
+  --border: #222222;
+  --border-subtle: #1a1a1a;
+
+  /* Inverted Accents - for buttons and highlights */
+  --btn-bg: #ffffff;
+  --btn-text: #000000;
+  --btn-hover: #e5e5e5;
+  --accent-inverted: #000000;
+
+  /* Card Inverted - transparent glass effect */
+  --card-bg: rgba(17, 17, 17, 0.6);
+  --card-border: rgba(42, 42, 42, 0.8);
+  --card-text: #e5e5e5;
+
+  /* Semantic */
+  --success: #22c55e;
+  --warning: #eab308;
+  --error: #ef4444;
+
+  /* Typography */
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-mono), "JetBrains Mono", monospace;
+  --font-serif: var(--font-serif), "Source Serif 4", Georgia, serif;
+  --font-display: var(--font-playfair), "Playfair Display", serif;
+
+  /* Safe areas */
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+
+  /* Newspaper Mode Colors (Default/Dark) */
+  --np-bg: #0d0d0d;
+  --np-paper: #f5f0e8;
+  --np-ink: #1a1a1a;
+  --np-ink-light: #4a4a4a;
+  --np-accent: #c41e3a;
+  --np-rule: #333;
+
+  /* Paper Mode Colors (Default/Dark) */
+  --paper-bg: #1a1a1a;
+  --paper-text: #e0e0e0;
+  --paper-muted: #a0a0a0;
+  --paper-accent: #f5f3ef;
+  --paper-border: #3a3a3a;
+  --paper-highlight: rgba(245, 243, 239, 0.12);
+  --paper-texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%233a3a3a' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+[data-theme="light"] {
+  /* Light Theme - Clean White & Black */
+  --bg: #ffffff;
+  --bg-secondary: #fafafa;
+  --bg-elevated: #f5f5f5;
+  --text: #000000;
+  --text-muted: #666666;
+  --text-secondary: #444444;
+  --accent: #000000;
+  --accent-hover: #1a1a1a;
+  --accent-glow: rgba(0, 0, 0, 0.04);
+  --accent-cyan: #0891b2;
+  --border: #e5e5e5;
+  --border-subtle: #f0f0f0;
+
+  /* Inverted Accents - for buttons and highlights */
+  --btn-bg: #000000;
+  --btn-text: #ffffff;
+  --btn-hover: #1a1a1a;
+  --accent-inverted: #ffffff;
+
+  /* Card Inverted - transparent glass effect */
+  --card-bg: rgba(240, 240, 240, 0.6);
+  --card-border: rgba(213, 213, 213, 0.8);
+  --card-text: #1a1a1a;
+
+  /* Newspaper Mode Colors (Light) */
+  --np-bg: #f5f0e8;
+  --np-paper: #0d0d0d;
+  --np-ink: #f5f0e8;
+  --np-ink-light: #c0c0c0;
+  --np-accent: #ff4d6a;
+  --np-rule: #ddd;
+
+  /* Paper Mode Colors (Light) */
+  --paper-bg: #f5f3ef;
+  --paper-text: #2c2c2c;
+  --paper-muted: #6b6b6b;
+  --paper-accent: #1a1a1a;
+  --paper-border: #d4d0c8;
+  --paper-highlight: rgba(26, 26, 26, 0.08);
+  --paper-texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23d4d0c8' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.2s ease, color 0.2s ease;
+
+  /* Theme-aware dotted background */
+  background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent) 0%, #ec4899 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes ticker {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Admin Logo Glow - Rotating conic gradient */
+@keyframes admin-gradient-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.admin-logo-glow::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: calc(100% + 12px);
+  height: calc(100% + 12px);
+  border-radius: 50%;
+  background: conic-gradient(from -60deg, #EA4335 0%, #4285F4 35%, #34A853 70%, #FBBC05 90%, #EA4335 100%);
+  z-index: 0;
+  animation: admin-gradient-rotate 2s linear infinite;
+  /* Thin ring effect using mask */
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
+}
+
+/* Logo glow on hover - for projects section */
+.logo-glow-hover {
+  position: relative;
+  isolation: isolate;
+}
+
+.logo-glow-hover::before {
+  content: "";
+  position: absolute;
+  top: -14px;
+  left: -14px;
+  width: calc(100% + 28px);
+  height: calc(100% + 28px);
+  border-radius: 50%;
+  background: conic-gradient(#ff79c6, #bd93f9, #8be9fd, #50fa7b, #ffb86c, #f1fa8c, #ff79c6);
+  z-index: -1;
+  opacity: 0;
+  animation: admin-gradient-rotate 2s linear infinite;
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+  transition: opacity 0.3s ease;
+}
+
+.logo-glow-hover:hover::before {
+  opacity: 1;
+}
+
+/* Nexus Portal Icon - Glow + Rotation */
+@keyframes nexus-portal-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.nexus-portal-icon {
+  filter: drop-shadow(0 0 7px rgba(173, 158, 255, 0.6));
+  transition: filter 0.3s ease;
+}
+
+.nexus-portal-link:hover .nexus-portal-icon {
+  filter: drop-shadow(0 0 12px rgba(173, 158, 255, 0.9));
+  animation: nexus-portal-rotate 2s linear infinite;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+}
+
+/* Safe area for mobile bottom nav */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Hide scrollbar utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Marquee animations defined in MARQUEE ANIMATIONS section below */
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+/* Remove focus outline from terminal input */
+input:focus,
+input:focus-visible,
+input:focus-within {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: inherit !important;
+}
+
+@keyframes shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  10% {
+    transform: translateX(-4px) rotate(-1deg);
+  }
+
+  20% {
+    transform: translateX(4px) rotate(1deg);
+  }
+
+  30% {
+    transform: translateX(-4px) rotate(0deg);
+  }
+
+  40% {
+    transform: translateX(4px) rotate(1deg);
+  }
+
+  50% {
+    transform: translateX(-4px) rotate(-1deg);
+  }
+
+  60% {
+    transform: translateX(4px) rotate(0deg);
+  }
+
+  70% {
+    transform: translateX(-4px) rotate(1deg);
+  }
+
+  80% {
+    transform: translateX(2px) rotate(-1deg);
+  }
+
+  90% {
+    transform: translateX(-2px) rotate(0deg);
+  }
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* ============================================
+   PAGE TRANSITIONS (Clip-path circle)
+   ============================================ */
+.page-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  pointer-events: none;
+  background: var(--bg);
+  --origin-x: 50%;
+  --origin-y: 50%;
+}
+
+/* EXPAND: Circle grows from click point */
+.page-transition-overlay.expand {
+  clip-path: circle(0% at var(--origin-x) var(--origin-y));
+  opacity: 0;
+}
+
+.page-transition-overlay.expand.active {
+  animation: transition-expand 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes transition-expand {
+  0% {
+    clip-path: circle(0% at var(--origin-x) var(--origin-y));
+    opacity: 1;
+  }
+
+  100% {
+    clip-path: circle(150% at var(--origin-x) var(--origin-y));
+    opacity: 1;
+  }
+}
+
+/* Contract animation removed - not in use */
+
+/* ============================================
+   TERMINAL VISUAL EFFECTS
+   ============================================ */
+
+/* Glitch Animation */
+@keyframes glitch {
+
+  0%,
+  100% {
+    clip-path: inset(80% -6px 0 0);
+    transform: translate(-2px, -1px);
+  }
+
+  10% {
+    clip-path: inset(10% -6px 85% 0);
+    transform: translate(2px, 1px);
+  }
+
+  20% {
+    clip-path: inset(80% -6px 0 0);
+    transform: translate(-1px, 0);
+  }
+
+  30% {
+    clip-path: inset(10% -6px 85% 0);
+    transform: translate(0, 1px);
+  }
+
+  40% {
+    clip-path: inset(50% -6px 30% 0);
+    transform: translate(1px, -1px);
+  }
+
+  50% {
+    clip-path: inset(10% -6px 85% 0);
+    transform: translate(-1px, 1px);
+  }
+
+  60% {
+    clip-path: inset(40% -6px 43% 0);
+    transform: translate(1px, 0);
+  }
+
+  70% {
+    clip-path: inset(50% -6px 36% 0);
+    transform: translate(0, -1px);
+  }
+
+  80% {
+    clip-path: inset(80% -6px 5% 0);
+    transform: translate(-1px, 0);
+  }
+
+  90% {
+    clip-path: inset(1% -6px 99% 0);
+    transform: translate(1px, 1px);
+  }
+}
+
+@keyframes glitch-skew {
+
+  0%,
+  100% {
+    transform: skew(0deg);
+  }
+
+  20% {
+    transform: skew(-2deg);
+  }
+
+  40% {
+    transform: skew(1deg);
+  }
+
+  60% {
+    transform: skew(-1deg);
+  }
+
+  80% {
+    transform: skew(2deg);
+  }
+}
+
+.glitch-effect {
+  position: relative;
+}
+
+.glitch-effect::before,
+.glitch-effect::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+}
+
+.glitch-effect::before {
+  left: 2px;
+  text-shadow: -1px 0 #ff00c1;
+  animation: glitch 2s infinite linear alternate-reverse;
+}
+
+.glitch-effect::after {
+  left: -2px;
+  text-shadow: 1px 0 #00fff9;
+  animation: glitch 3s infinite linear alternate-reverse;
+}
+
+/* CRT Scanline Effect */
+.crt-effect {
+  position: relative;
+}
+
+.crt-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(0deg,
+      rgba(0, 0, 0, 0.15),
+      rgba(0, 0, 0, 0.15) 1px,
+      transparent 1px,
+      transparent 2px);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.crt-effect::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Noise Overlay */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Matrix Rain was removed */
+
+/* ============================================
+   MARQUEE ANIMATIONS - Infinite Loop Skills
+   ============================================ */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+  width: max-content;
+}
+
+.animate-marquee-reverse {
+  animation: marquee-reverse 30s linear infinite;
+  width: max-content;
+}
+
+/* ============================================
+   REDUCED MOTION ACCESSIBILITY
+   Respects user's system preferences
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Keep essential animations that don't cause motion sickness */
+  .animate-pulse {
+    animation: pulse 2s ease-in-out infinite !important;
+  }
+}

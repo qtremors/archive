@@ -1,0 +1,104 @@
+.voyagerContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+  overflow-x: hidden;
+}
+
+.animationPath {
+  position: absolute;
+  width: 100%;
+  height: 300px;
+  top: 25%;
+  left: 0;
+}
+
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 1;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  85% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes followPath {
+  0% {
+    offset-distance: 0%;
+  }
+
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+.voyagerShip {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  pointer-events: auto;
+
+  offset-path: path('M -100,100 C 100,300 300,-100 500,100 C 700,300 900,-100 1100,100 C 1300,300 1500,-100 1700,100'
+    );
+
+
+  animation:
+    followPath 60s linear infinite,
+    fadeInOut 60s linear infinite;
+
+  offset-anchor: center;
+  opacity: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: transform 0.3s ease;
+}
+
+.shipIcon {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  filter: drop-shadow(0 0 5px rgba(150, 200, 255, 0.8));
+}
+
+.shipTooltip {
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.voyagerShip:hover {
+  transform: scale(1.3);
+  animation-play-state: paused;
+}
+
+.voyagerShip:hover .shipTooltip {
+  opacity: 1;
+  visibility: visible;
+}

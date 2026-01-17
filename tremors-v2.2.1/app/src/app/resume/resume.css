@@ -1,0 +1,391 @@
+/* ==========================================================================
+   PAPER MODE STYLES
+   Clean, paper-textured, text-focused design with serif typography
+   ========================================================================== */
+
+/* Light mode (default) */
+.paper-mode {
+    --paper-bg: #f5f3ef;
+    --paper-text: #2c2c2c;
+    --paper-muted: #6b6b6b;
+    --paper-accent: #1a1a1a;
+    --paper-border: #d4d0c8;
+    --paper-highlight: rgba(26, 26, 26, 0.08);
+    --paper-texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23d4d0c8' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+/* Dark mode */
+[data-theme="dark"] .paper-mode,
+.dark .paper-mode {
+    --paper-bg: #1a1a1a;
+    --paper-text: #e0e0e0;
+    --paper-muted: #a0a0a0;
+    --paper-accent: #f5f3ef;
+    --paper-border: #3a3a3a;
+    --paper-highlight: rgba(245, 243, 239, 0.12);
+    --paper-texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%233a3a3a' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+/* Base paper styles */
+.paper-mode {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--paper-text);
+    background-color: var(--paper-bg);
+    background-image: var(--paper-texture);
+    min-height: 100vh;
+}
+
+/* Page layout - flex container */
+.paper-layout {
+    display: flex;
+    min-height: 100vh;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* TOC Sidebar - sticky, top aligned with offset */
+.paper-sidebar {
+    position: sticky;
+    top: 6rem;
+    width: 180px;
+    height: fit-content;
+    flex-shrink: 0;
+    margin-right: 2rem;
+}
+
+/* Sidebar Download Link */
+.paper-back-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+    margin-bottom: 2rem;
+    color: var(--paper-muted);
+    text-decoration: none !important;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    border: 1px solid var(--paper-border);
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.paper-back-link:hover {
+    background: var(--paper-accent);
+    border-color: var(--paper-accent);
+    color: var(--paper-bg);
+    text-decoration: none !important;
+}
+
+/* TOC Navigation */
+.paper-toc {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.paper-toc-link {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: var(--paper-accent);
+    text-decoration: none;
+    font-size: 1rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    text-align: left;
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.paper-toc-link:hover {
+    color: var(--paper-text);
+    background: var(--paper-highlight);
+}
+
+.paper-toc-link.active {
+    color: var(--paper-accent);
+    background: var(--paper-highlight);
+    font-weight: 600;
+    border-left: 4px solid var(--paper-accent);
+    border-radius: 8px;
+    padding-left: 1rem;
+}
+
+/* Main content */
+.paper-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.paper-container {
+    max-width: 720px;
+    padding: 4rem 2rem;
+}
+
+/* Mobile back button - hidden by default */
+.paper-mobile-back {
+    display: none;
+}
+
+/* Section headings */
+.paper-mode h1,
+.paper-mode h2,
+.paper-mode h3 {
+    font-family: 'Georgia', serif;
+    font-weight: 600;
+    color: var(--paper-text);
+    margin-bottom: 1rem;
+}
+
+.paper-mode h1 {
+    font-size: 2.5rem;
+    border-bottom: 2px solid var(--paper-border);
+    padding-bottom: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.paper-mode h2 {
+    font-size: 1.75rem;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--paper-border);
+    padding-bottom: 0.5rem;
+}
+
+.paper-mode h3 {
+    font-size: 1.25rem;
+    margin-top: 1.5rem;
+}
+
+/* First h3 in section - less top margin */
+.paper-section>h3:first-of-type,
+.paper-entry:first-of-type h3 {
+    margin-top: 0.5rem;
+}
+
+/* Paragraphs */
+.paper-mode p {
+    margin-bottom: 1.5rem;
+    text-align: justify;
+    hyphens: auto;
+}
+
+/* Links */
+.paper-mode a {
+    color: var(--paper-accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    transition: opacity 0.2s ease;
+}
+
+.paper-mode a:hover {
+    opacity: 0.8;
+}
+
+/* Skills inline list */
+.paper-skills-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 1.5rem 0;
+}
+
+.paper-skills-inline li {
+    background: var(--paper-highlight);
+    border: 1px solid var(--paper-border);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+/* Contact list */
+.paper-contact-list {
+    list-style: none;
+    padding: 0;
+}
+
+.paper-contact-list li {
+    margin-bottom: 0.75rem;
+}
+
+.paper-contact-list a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Load more button */
+.paper-load-more {
+    display: block;
+    margin: 2rem auto;
+    padding: 0.75rem 1.5rem;
+    font-family: 'Georgia', serif;
+    font-size: 1rem;
+    color: var(--paper-accent);
+    background: transparent;
+    border: 1px solid var(--paper-accent);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.paper-load-more:hover {
+    background: var(--paper-accent);
+    color: var(--paper-bg);
+}
+
+/* Footer */
+.paper-footer {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--paper-border);
+    text-align: center;
+    color: var(--paper-muted);
+    font-size: 0.9rem;
+}
+
+/* Section */
+.paper-section {
+    margin-bottom: 3rem;
+    scroll-margin-top: 100px;
+    /* Account for header when scrolling to section */
+}
+
+/* Entry block (for education, experience, projects) */
+.paper-entry {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px dashed var(--paper-border);
+}
+
+/* Remove border from last entry (works with expanded/collapsed states) */
+.paper-entry:last-of-type {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+/* Date/period styling */
+.paper-date {
+    color: var(--paper-muted);
+    font-style: italic;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Bullet list for experience */
+.paper-bullets {
+    list-style: disc;
+    padding-left: 1.5rem;
+    margin: 0.5rem 0 0 0;
+}
+
+.paper-bullets li {
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+
+.paper-bullets li:last-child {
+    margin-bottom: 0;
+}
+
+/* Certifications list */
+.paper-certifications {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.paper-certifications li {
+    padding: 0.75rem 0;
+    border-bottom: 1px dashed var(--paper-border);
+}
+
+.paper-certifications li:last-child {
+    border-bottom: none;
+}
+
+/* Available badge */
+.paper-available {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: 6px;
+    color: #16a34a;
+    font-size: 0.9rem;
+}
+
+/* Responsive - hide sidebar on smaller screens */
+@media (max-width: 1024px) {
+    .paper-sidebar {
+        display: none;
+    }
+
+    .paper-layout {
+        padding: 0 1rem;
+    }
+
+    .paper-container {
+        padding: 2rem 1rem;
+    }
+
+    /* Mobile back button - visible fixed top right */
+    .paper-mobile-back {
+        display: block;
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 1000;
+        padding: 0.5rem 1rem;
+        background: var(--paper-bg);
+        border: 1px solid var(--paper-border);
+        border-radius: 4px;
+        color: var(--paper-text);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s ease;
+    }
+
+    .paper-mobile-back:hover {
+        border-color: var(--paper-accent);
+        color: var(--paper-accent);
+    }
+
+    .paper-mode h1 {
+        font-size: 2rem;
+    }
+
+    .paper-mode {
+        font-size: 16px;
+    }
+}
+
+/* Print-friendly */
+@media print {
+    .paper-mode {
+        background: white;
+        background-image: none;
+    }
+
+    .paper-sidebar,
+    .paper-mobile-back {
+        display: none;
+    }
+}

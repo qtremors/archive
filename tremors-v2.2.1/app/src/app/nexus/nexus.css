@@ -1,0 +1,19 @@
+/* Nexus page specific styles */
+.nexus-container {
+    background-color: transparent;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Override tremors body background for nexus route */
+body:has(.nexus-container) {
+    background-color: #030014 !important;
+    background-image: none !important;
+}
+
+/* Hide tremors header on nexus page */
+body:has(.nexus-container) header {
+    display: none;
+}

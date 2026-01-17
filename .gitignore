@@ -1,0 +1,200 @@
+# ========================================
+# TREMORS UNIVERSAL .GITIGNORE
+# Python + React/TypeScript + Tauri + Node
+# ========================================
+
+# ===== Environment & Secrets =====
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+*.pem
+*.key
+secrets/
+credentials/
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+.uv/
+*.egg-info/
+*.egg
+dist/
+build/
+eggs/
+*.manifest
+*.spec
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Python testing
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.hypothesis/
+*.cover
+nosetests.xml
+coverage.xml
+*.coveragerc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# ===== Node.js / npm =====
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm/
+.yarn/
+.pnp.*
+
+# ===== React / Vite / Frontend =====
+dist/
+build/
+.next/
+out/
+.nuxt/
+.output/
+.cache/
+*.tsbuildinfo
+
+# ===== Tauri (Desktop) =====
+tauri/src-tauri/target/
+tauri/src-tauri/Cargo.lock
+*.exe
+*.msi
+*.dmg
+*.AppImage
+*.deb
+
+# ===== Rust (for Tauri) =====
+target/
+Cargo.lock
+**/*.rs.bk
+
+# ===== Databases =====
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-shm
+*.db-wal
+instance/
+
+# ===== Logs =====
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# ===== IDE & Editors =====
+# VS Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# JetBrains (PyCharm, WebStorm)
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# ===== OS Generated =====
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+*~
+.directory
+
+# ===== Build & Compiled =====
+*.o
+*.obj
+*.dll
+*.dylib
+*.so
+*.class
+*.jar
+*.war
+
+# ===== Media & Assets (Optional) =====
+# Uncomment if you don't want to track large files
+# *.mp4
+# *.mp3
+# *.wav
+# *.mov
+# *.avi
+# *.psd
+# *.ai
+
+# ===== Testing & Coverage =====
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+playwright/.cache/
+
+# ===== Misc =====
+*.bak
+*.tmp
+*.temp
+*.orig
+*.patch
+.cache/
+.parcel-cache/
+.turbo/
+
+# ===== Documentation Build =====
+docs/_build/
+site/
+.docusaurus/
+
+# ===== ML/Data Science =====
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.model
+datasets/
+ml_models/*.h5
+!ml_models/.gitkeep
+
+# ===== Project Specific =====
+# Add project-specific ignores below
