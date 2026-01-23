@@ -1,0 +1,89 @@
+---
+# This front matter block tells Jekyll to process this file with Liquid
+layout: null
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tremors' Research Hub</title>
+
+    <link rel="stylesheet" href="index.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Research Archive</h1>
+            <p>A curated collection of research, notes, and technical deep dives.</p>
+        </header>
+
+        <main>
+            <h2>Research Subjects Index</h2>
+
+            <section class="index-section">
+                <h3>
+                    <img src="assets/python.svg" alt="Python Icon" width="24" height="24">
+                    Python
+                </h3>
+                <p>
+                    A collection of dedicated documents covering everything from core syntax to advanced libraries and development practices.
+                </p>
+
+                <ul class="file-list">
+                    {% assign notes = site.python | sort: 'title' %}
+                    {% for note in notes %}
+                        <li>
+                            <a href="{{ note.url | relative_url }}">
+                                <span>{{ note.title | default: "Untitled Note" }}</span>
+                                <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </a>
+                        </li>
+                    {% else %}
+                        <div class="empty-section">
+                           <p>No research notes found in this section yet.</p>
+                        </div>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            <section class="index-section">
+                <h3>
+                    <img src="assets/django.svg" alt="Django Icon" width="24" height="24">
+                    Django
+                </h3>
+                <p>
+                    Notes and research on the Django web framework, from models to views and deployment.
+                </p>
+
+                <ul class="file-list">
+                    {% assign notes = site.django | sort: 'title' %}
+                    {% for note in notes %}
+                        <li>
+                            <a href="{{ note.url | relative_url }}">
+                                <span>{{ note.title | default: "Untitled Note" }}</span>
+                                <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </a>
+                        </li>
+                    {% else %}
+                        <div class="empty-section">
+                           <p>No research notes found in this section yet.</p>
+                        </div>
+                    {% endfor %}
+                </ul>
+            </section>
+            
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Tremors Research Hub.</p>
+        </footer>
+    </div>
+</body>
+</html>

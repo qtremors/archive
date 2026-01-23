@@ -42,6 +42,7 @@
 | `locr` | v1.2.6 | 04-12-2025 | 17-01-2026 | Lines of code in repo counter. |
 | `rtree` | v1.1.0 | 20-11-2025 | 17-01-2026 | Folder tree structure printer. |
 | `tremors` | v2.2.1 | 21-12-2025 | 17-01-2026 | Personal Portfolio App. |
+| `research` | alpha | 19-10-2025 | 23-01-2026 | A Research Hub. |
 
 ---
 

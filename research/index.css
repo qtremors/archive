@@ -1,0 +1,165 @@
+    :root {
+        --background-primary: #202020;
+        --text-normal: #dcddde;
+        --text-muted: #999;
+        --text-faint: #666;
+        --interactive-accent: #4e78e4;
+        --background-secondary: #2a2a2a;
+        --background-modifier-border: #444;
+        --background-modifier-hover: #3a3a3a;
+        --highlight-bg: rgba(233, 172, 39, 0.4);
+        --code-background: #282c34;
+        --tag-background: #3e445e;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--background-primary);
+        color: var(--text-normal);
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    header {
+        text-align: center;
+        padding-bottom: 3rem;
+        margin-bottom: 3rem;
+        border-bottom: 1px solid var(--background-modifier-border);
+    }
+
+    header h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+        color: var(--text-normal);
+        margin: 0;
+    }
+
+    header p {
+        margin-top: 1rem;
+        font-size: 1.25rem;
+        color: var(--text-muted);
+    }
+
+    main h2 {
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: var(--text-normal);
+        margin-bottom: 2.5rem;
+        border-left: 4px solid var(--interactive-accent);
+        padding-left: 1rem;
+    }
+
+    .index-section {
+        margin-bottom: 3rem;
+        padding: 1.5rem;
+        background-color: var(--background-secondary);
+        border-radius: 12px;
+        border: 1px solid var(--background-modifier-border);
+    }
+    
+    .index-section h3 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--text-normal);
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--background-modifier-border);
+        display: flex;
+        align-items: center;
+    }
+    
+    .index-section h3 img {
+        width: 2rem;
+        height: 2rem;
+        margin-right: 0.75rem;
+        color: var(--interactive-accent);
+    }
+
+    .index-section h3 svg {
+        width: 2rem;
+        height: 2rem;
+        margin-right: 0.75rem;
+        color: var(--interactive-accent);
+    }
+
+    .index-section > p {
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+    }
+
+    .file-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .file-list li {
+        margin-bottom: 1rem;
+    }
+    .file-list li:last-child {
+        margin-bottom: 0;
+    }
+
+    .file-list a {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        background-color: var(--background-primary);
+        border-radius: 8px;
+        text-decoration: none;
+        transition: background-color 0.2s, color 0.2s;
+        font-size: 1.125rem;
+        font-weight: 500;
+        color: var(--text-normal);
+    }
+
+    .file-list a:hover {
+        background-color: var(--background-modifier-hover);
+        color: white;
+    }
+
+    .file-list a .arrow-icon {
+        width: 1.5rem;
+        height: 1.5rem;
+        color: var(--text-faint);
+        transition: transform 0.2s, color 0.2s;
+    }
+    
+    .file-list a:hover .arrow-icon {
+        transform: translateX(4px);
+        color: var(--interactive-accent);
+    }
+
+    .empty-section {
+        text-align: center;
+        padding: 2rem;
+        background-color: var(--background-primary);
+        border-radius: 8px;
+        border: 2px dashed var(--background-modifier-border);
+    }
+    
+    .empty-section p {
+        color: var(--text-muted);
+        font-style: italic;
+    }
+
+    footer {
+        margin-top: 4rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--background-modifier-border);
+        text-align: center;
+        color: var(--text-faint);
+        font-size: 0.875rem;
+    }

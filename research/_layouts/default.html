@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title | default: "Jekyll Site" }}</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="{{ '/assets/css/default.css' | relative_url }}">
+</head>
+<body>
+    <main>
+        {{ content }}
+    </main>
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    
+    <script>
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false},
+                    ],
+                    throwOnError: false
+                });
+            }
+
+            transformCallouts();
+            
+            handleWikilinks();
+
+            handleTags();
+
+            styleTaskLists();
+        });
+
+
+        if (typeof Prism !== 'undefined') {
+            Prism.hooks.add('complete', (env) => {
+                const pre = env.element.parentNode;
+                if (!pre || pre.tagName !== 'PRE') {
+                    return;
+                }
+
+                if (pre.parentNode.classList.contains('code-container')) {
+                    return;
+                }
+
+                const copyIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>`;
+                const checkIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>`;
+
+                const container = document.createElement('div');
+                container.className = 'code-container';
+                
+                if (pre.parentNode) {
+                    pre.parentNode.insertBefore(container, pre);
+                }
+                
+                const button = document.createElement('button');
+                button.className = 'copy-code-button';
+                button.innerHTML = copyIcon;
+                button.setAttribute('aria-label', 'Copy code to clipboard');
+                
+                container.appendChild(pre);
+                container.appendChild(button);
+
+                button.addEventListener('click', () => {
+                    if (!env.code) return;
+
+                    navigator.clipboard.writeText(env.code).then(() => {
+                        button.innerHTML = checkIcon;
+                        button.classList.add('copied');
+
+                        setTimeout(() => {
+                            button.innerHTML = copyIcon;
+                            button.classList.remove('copied');
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('Failed to copy code: ', err);
+                        button.innerHTML = 'Error';
+                        setTimeout(() => {
+                            button.innerHTML = copyIcon;
+                        }, 2000);
+                    });
+                });
+            });
+        }
+
+
+
+        function styleTaskLists() {
+            document.querySelectorAll('.task-list-item').forEach(item => {
+                const checkbox = item.querySelector('input[type="checkbox"]');
+                if (checkbox) {
+                    let currentNode = checkbox.nextSibling;
+                    while (currentNode && currentNode.nodeType !== Node.TEXT_NODE) {
+                        currentNode = currentNode.nextSibling;
+                    }
+
+                    if (currentNode && currentNode.nodeValue.trim() !== '') {
+                        const span = document.createElement('span');
+                        span.textContent = currentNode.nodeValue;
+                        item.insertBefore(span, currentNode);
+                        item.removeChild(currentNode);
+                    }
+                }
+            });
+        }
+
+        function handleTags() {
+            const container = document.querySelector('main');
+            if (!container) return;
+
+            const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+            const tagRegex = /(#[\w\/-]+)/g;
+            const textNodes = [];
+
+            let currentNode;
+            while (currentNode = walker.nextNode()) {
+                if (currentNode.parentElement.closest('script, style, code, pre, a')) {
+                    continue;
+                }
+                if (tagRegex.test(currentNode.nodeValue)) {
+                    textNodes.push(currentNode);
+                }
+            }
+
+            textNodes.forEach(textNode => {
+                const parent = textNode.parentNode;
+                const parts = textNode.nodeValue.split(tagRegex);
+                
+                if (parts.length > 1) {
+                    const fragment = document.createDocumentFragment();
+                    parts.forEach(part => {
+                        if (tagRegex.test(part)) {
+                            const a = document.createElement('a');
+                            a.href = '#';
+                            a.className = 'tag';
+                            a.textContent = part;
+                            fragment.appendChild(a);
+                        } else if (part) {
+                            fragment.appendChild(document.createTextNode(part));
+                        }
+                    });
+                    parent.replaceChild(fragment, textNode);
+                }
+            });
+        }
+
+
+        function handleWikilinks() {
+             const content = document.querySelector('main');
+             if (!content) return;
+             const wikilinkRegex = /(?<!\!|\[)\[\[([^\]]+)\]\]/g;
+
+             content.querySelectorAll('p, li, td, th, h1, h2, h3, h4, h5, h6').forEach(el => {
+                if (el.closest('a, code, pre')) return;
+
+                el.innerHTML = el.innerHTML.replace(wikilinkRegex, (match, p1) => {
+                    const parts = p1.split('|');
+                    const text = parts.length > 1 ? parts[1] : parts[0];
+                    return `<span class="broken-wikilink" title="Wikilink: ${parts[0]}">${text}</span>`;
+                });
+             });
+        }
+
+        function transformCallouts() {
+            const calloutIcons = {
+                note: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>`,
+                info: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>`,
+                todo: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle-2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>`,
+                tip: `<svg xmlns="http://www.w3.org/2S000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flame"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>`,
+                success: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg>`,
+                question: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-help-circle"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>`,
+                warning: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-alert-triangle"><path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>`,
+                failure: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>`,
+                danger: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2z"/></svg>`,
+                bug: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bug"><path d="m8 2 1.88 1.88"/><path d="M14.12 3.88 16 2"/><path d="M9 7.13v-1a3.003 3.003 0 1 1 6 0v1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6"/><path d="M12 20v-9"/><path d="M6.53 9C4.6 9 3 7.7 3 6s1.6-3 3.53-3"/><path d="M20.47 9c1.93 0 3.5-1.3 3.5-3s-1.57-3-3.53-3"/><path d="M3.5 11h1"/><path d="M19.5 11h1"/></svg>`,
+                example: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-list"><line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/></svg>`,
+                quote: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-quote"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.75-2-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>`,
+            };
+
+            calloutIcons.summary = calloutIcons.abstract;
+            calloutIcons.tldr = calloutIcons.abstract;
+            calloutIcons.hint = calloutIcons.tip;
+            calloutIcons.important = calloutIcons.tip;
+            calloutIcons.check = calloutIcons.success;
+            calloutIcons.done = calloutIcons.success;
+            calloutIcons.help = calloutIcons.question;
+            calloutIcons.faq = calloutIcons.question;
+            calloutIcons.caution = calloutIcons.warning;
+            calloutIcons.attention = calloutIcons.warning;
+            calloutIcons.fail = calloutIcons.failure;
+            calloutIcons.missing = calloutIcons.failure;
+            calloutIcons.error = calloutIcons.danger;
+
+
+            document.querySelectorAll('blockquote').forEach(quote => {
+                const firstP = quote.querySelector('p');
+                if (!firstP) return;
+
+                const match = firstP.innerHTML.match(/^\[!(\w+)\]([+-]?)(\s*(.*))?/);
+                if (match) {
+                    const calloutType = match[1].toLowerCase();
+                    const isFoldable = match[2];
+                    const titleText = match[4] || (calloutType.charAt(0).toUpperCase() + calloutType.slice(1));
+
+                    quote.classList.add('callout');
+                    quote.dataset.callout = calloutType;
+
+                    const titleDiv = document.createElement('div');
+                    titleDiv.className = 'callout-title';
+                    
+                    const iconSpan = document.createElement('span');
+                    iconSpan.className = 'callout-icon';
+                    iconSpan.innerHTML = calloutIcons[calloutType] || calloutIcons.note;
+                    
+                    const titleSpan = document.createElement('span');
+                    titleSpan.className = 'callout-title-text';
+                    titleSpan.innerHTML = titleText;
+
+                    titleDiv.appendChild(iconSpan);
+                    titleDiv.appendChild(titleSpan);
+                    
+                    const contentDiv = document.createElement('div');
+                    contentDiv.className = 'callout-content';
+                    
+                    firstP.remove();
+                    
+                    while(quote.firstChild) {
+                        contentDiv.appendChild(quote.firstChild);
+                    }
+
+                    quote.innerHTML = '';
+                    quote.appendChild(titleDiv);
+                    quote.appendChild(contentDiv);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+# Minimal Jekyll Configuration for GitHub Pages
+
+# Set theme to null to use your own custom layout
+theme: null
+
+# Exclude files from processing
+exclude:
+  - README.md
+
+# Build settings
+markdown: kramdown
+
+collections:
+  python:
+    output: true
+    permalink: /:collection/:name
+  django:
+    output: true
+    permalink: /:collection/:name
